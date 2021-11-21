@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Kodlamaio.HRMS2.business.abstracts.UsersService;
+import Kodlamaio.HRMS2.core.utility.result.DataResult;
+import Kodlamaio.HRMS2.core.utility.result.Result;
+import Kodlamaio.HRMS2.core.utility.result.SuccessDataResult;
+import Kodlamaio.HRMS2.core.utility.result.SuccessResult;
 import Kodlamaio.HRMS2.dataAccess.abstracts.UsersDao;
 import Kodlamaio.HRMS2.entities.concretes.Users;
 
@@ -18,7 +22,12 @@ public class UsersManager implements UsersService{
 		this.usersDao = usersDao;
 	}
 	@Override
-	public List<Users> getall() {
-		return this.usersDao.findAll();
+	public DataResult<List<Users>> getall() {
+		return new SuccessDataResult<List<Users>>(this.usersDao.findAll(),"Data Listed");
+	}
+	@Override
+	public Result add(Users users) {
+		this.usersDao.save(users);
+		return new SuccessResult("User added");
 	}
 }

@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Kodlamaio.HRMS2.business.abstracts.EmployeesService;
+import Kodlamaio.HRMS2.core.utility.result.DataResult;
+import Kodlamaio.HRMS2.core.utility.result.Result;
+import Kodlamaio.HRMS2.core.utility.result.SuccessDataResult;
+import Kodlamaio.HRMS2.core.utility.result.SuccessResult;
 import Kodlamaio.HRMS2.dataAccess.abstracts.EmployeeDao;
 import Kodlamaio.HRMS2.entities.concretes.Employees;
 @Service
@@ -17,7 +21,12 @@ public class EmployeesManager implements EmployeesService{
 		this.employeeDao = employeeDao;
 	}
 	@Override
-	public List<Employees> getall() {
-		return this.employeeDao.findAll();
+	public DataResult<List<Employees>> getall() {
+		return new SuccessDataResult<List<Employees>>(employeeDao.findAll(),"Data Listed");
+	}
+	@Override
+	public Result add(Employees employees) {
+		this.employeeDao.save(employees);
+		return new SuccessResult("Employee added");
 	}
 }
